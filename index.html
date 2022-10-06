@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Rental</title>
+    <style>
+        body {
+            margin: 1.5em;
+        }
+
+        fieldset {
+            margin-top: 1.5em;
+            margin-bottom: 1.5em;
+            padding: 1.5em;
+        }
+    </style>
+
+</head>
+
+<body>
+    <h1>ACME Car Rental</h1>
+    <label for="pickup-date">Pickup date:</label>
+    <input type="date" name="pickupDate" id="pickup-date">
+    <label for="number-of-days">Number of days:</label>
+    <input type="number" name="numberOfDays" id="number-of-days">
+    <fieldset>
+        <legend>Rental Car Options</legend>
+        <input type="checkbox" name="tollTag" id="toll-tag" value="tollTag">
+        <label for="toll-tag">Electronic Toll Tag ($3.95/day plus tolls)</label>
+
+        <input type="checkbox" name="gps" id="gps" value="gps">
+        <label for="gps">GPS ($4.95/day)</label>
+
+        <input type="checkbox" name="roadside" id="roadside" value="roadside">
+        <label for="roadside">Roadside Assistance ($2.95/day)</label>
+    </fieldset>
+    <fieldset>
+        <legend>Under 25</legend>
+        <input type="radio" name="ynOption" id="yn-option" value="no">
+        <label for="yn-option">No</label>
+        <input type="radio" name="ynOption" id="yn-option" value="yes">
+        <label for="yn-option">Yes</label>
+        <button onclick="estimatedTotalCost();">Estimated Total Cost</button>
+    </fieldset>
+    <table>
+        <tbody>
+            <tr>
+                <td>Car Rental:</td>
+                <td id="car-rental-cost">XX.XX</td>
+
+            </tr>
+            <tr>
+                <td>Options:</td>
+                <td id="options-cost">XX.XX</td>
+            </tr>
+            <tr>
+                <td>Under 25 surcharge:</td>
+                <td id="under25-cost">XX.XX</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>Total:</td>
+                <td id="total-cost">XX.XX</td>
+            </tr>
+        </tfoot>
+    </table>
+    <script>
+        function estimatedTotalCost() {
+            //get query selectors are necessary for calculation
+
+            // //get number of days element/input
+            // const daysInput = document.getElementById("number-of-days");
+            // // get the value, turn string into number
+            // let days = parseInt(daysInput.value);
+
+            let days = parseInt(document.getElementById("number-of-days").value);
+
+            // get checkbox element for toll tag
+            let tollTagCheckbox = document.getElementById("toll-tag");
+            // get the checkbox checked property and see if it's true
+            let tollTag = tollTagCheckbox.checked
+
+            // get checkbox element for gps
+            let gpsCheckbox = document.getElementById("gps");
+            // get the checkbox checked property and see if it's true
+            let gps = gpsCheckbox.checked
+
+            // get checkbox element for roadside
+            // let roadsideCheckbox = document.getElementById("roadside");
+            // // get the checkbox checked property and see if it's true
+            // let roadside = roadsideCheckbox.checked
+
+            // get checkbox element for roadside
+            let roadside = document.getElementById("roadside").checked;
+
+            // get selected option for age
+            let selectedOption = document.querySelector("input[name='ynOption']:checked");
+
+            //calculate total
+            let carRentalCost = 29.99 * days;
+            let options = 0;
+            let ageSurcharge = 0;
+
+
+            if (tollTag) {
+                options += (3.95 * days);
+            }
+            if (gps) {
+                options += (2.95 * days);
+            }
+            if (roadside) {
+                options += (2.95 * days);
+            }
+
+
+            if (selectedOption && selectedOption.value === "yes") {
+                ageSurcharge = (carRentalCost * .3);
+            }
+
+            let total = carRentalCost + options + ageSurcharge;
+            //get element
+            const carRentalCostElement = document.getElementById("car-rental-cost");
+            //set, get something on the element
+            carRentalCostElement.innerText = carRentalCost;
+
+            document.getElementById("options-cost").innerText = options;
+            document.getElementById("under25-cost").innerText = ageSurcharge;
+            document.getElementById("total-cost").innerText = total;
+
+
+
+        }
+    </script>
+</body>
+
+
+</html>
